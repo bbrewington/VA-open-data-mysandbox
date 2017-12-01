@@ -1,0 +1,29 @@
+dataset
+  type                character
+  accessLevel         character
+  bureauCode          list --> character
+  contactPoint        data.frame: fn (character), hasEmail (character)
+  dataQuality         logical
+  description         character
+  distribution        list --> data.frame
+    @type, downloadURL, mediaType, format, description, title, accessURL
+  identifier          character **unique ID**
+  issued              character
+  keyword             list --> character
+  license             character
+  modified            character
+  programCode         list --> character
+  publisher           data.frame: @type (character), name (character)
+  theme               list --> character
+  title               character
+  landingPage         character
+  accrualPeriodicity  character
+  language            list --> character
+  temporal            character
+  describedBy         character
+  references          list --> character
+  isPartOf            character
+  describedByType     character
+  systemOfRecords     character
+  rights              character
+  conformsTo          character
