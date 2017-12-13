@@ -1,4 +1,4 @@
-library(httr); library(purrr); library(readr); library(dplyr)
+library(httr); library(purrr); library(readr); library(dplyr); library(stringr)
 
 check_url <- function(url) http_status(HEAD(url))$message
 safe_check_url <- safely(check_url)
@@ -35,6 +35,12 @@ va_data_inventory <- bind_cols(
                  NA_character_,
                  if_else(is.na(link_status_20171202_result), link_status_20171202_error,
                          link_status_20171202_result))) %>%
-  select(-link_status_20171202_result, -link_status_20171202_error)
+  select(-link_status_20171202_result, -link_status_20171202_error) %>%
+  mutate(url = case_when(
+    is.na(distribution_accessURL) & is.na(distribution_downloadURL) ~ NA_character_,
+    is.na(distribution_accessURL) ~ distribution_downloadURL,
+    is.na(distribution_downloadURL) ~ distribution_accessURL
+  )) %>%
+  mutate(url = str_replace(url, "www1\\.va\\.gov", "www\\.va\\.gov"))
 
 write_csv(va_data_inventory, "va_data_inventory_links_checked_20171202.csv", na = "")
